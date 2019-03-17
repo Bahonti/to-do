@@ -11,7 +11,7 @@ class App extends Component {
       <div className="App">
         <h1>To do app</h1>
         <Form />
-        <List data={this.props.tasks} />
+        <List />
       </div>
     );
   }
@@ -19,9 +19,7 @@ class App extends Component {
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
 
-const mapStateToProps = state => ({
-    tasks: state.taskReducer.tasks
-});
+const mapStateToProps = state => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
 
