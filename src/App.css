@@ -1,3 +1,16 @@
+@import '~antd/dist/antd.css';
+
+.form {
+    margin-bottom: 2vw;
+}
+
+h1 {
+    margin-top: 2vw;
+}
+
+.input{
+    width: 500px;
+}
 button.btn1 {
     background: #4949d5;
     border-color: #5555df;

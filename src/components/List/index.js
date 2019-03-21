@@ -2,8 +2,18 @@ import React from 'react';
 import {deleteTask, editTask, removeInputValue} from "../../actions/taskActions";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import { Button, Popconfirm, message } from 'antd';
 
 export  class List extends React.Component {
+
+    confirm = (id) => {
+        this.props.deleteTask(id);
+        message.success('Click on Yes');
+    }
+
+    cancel = () => {
+        message.error('Click on No');
+    }
 
     render() {
 
@@ -15,18 +25,21 @@ export  class List extends React.Component {
                    tasks.map(task =>
                          <p key={task.id}>
                              {task.value}
-                             <button className={"btn"} onClick={() => {
-                                    deleteTask(task.id)}}>
-                                 удалить
-                             </button>
-                             <button className={"btn1"} onClick={() => {
+                             <Popconfirm title="Вы хотитеи удалить эту задачу?" onConfirm={() => this.confirm(task.id)} onCancel={() => this.cancel} okText="Да" cancelText="Нет">
+                                 <Button className={"btn"} onClick={() => {
+                                        }}>
+                                     удалить
+                                 </Button>
+                             </Popconfirm>
+
+                             <Button className={"btn1"} onClick={() => {
                                  if(inputValue !=="") {
                                      editTask(task.id, inputValue);
                                      removeInputValue();
                                  }
                              }}>
                                  редактирование
-                             </button>
+                             </Button>
                          </p>
                     )
                 }
