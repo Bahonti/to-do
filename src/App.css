@@ -7,7 +7,19 @@
 h1 {
     margin-top: 2vw;
 }
-
+.editName {
+    padding-left: 0.5vw;
+    font-weight: bold;
+    width: 300px;
+    border: none;
+    background: none;
+    color: #000;
+}
+.more {
+    width: 300px;
+    color: #000;
+    font-weight: bold;
+}
 .input{
     width: 500px;
 }

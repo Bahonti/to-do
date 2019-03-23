@@ -3,8 +3,14 @@ import {deleteTask, editTask, removeInputValue} from "../../actions/taskActions"
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import { Button, Popconfirm, message } from 'antd';
+import { Input } from 'antd';
 
 export  class List extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.state = { clicked: false }
+    }
 
     confirm = (id) => {
         this.props.deleteTask(id);
@@ -20,11 +26,14 @@ export  class List extends React.Component {
         let { tasks, deleteTask, inputValue, editTask, removeInputValue } = this.props;
 
         return (
-            <div>
+            <div className={"edit"}>
+
                 {
                    tasks.map(task =>
                          <p key={task.id}>
-                             {task.value}
+                             <Input className={this.state.clicked === task.id ? "more" : "editName"}
+                                    disabled={this.state.clicked === task.id ? false : true }
+                                    value={task.value} />
                              <Popconfirm title="Вы хотитеи удалить эту задачу?" onConfirm={() => this.confirm(task.id)} onCancel={() => this.cancel} okText="Да" cancelText="Нет">
                                  <Button className={"btn"} onClick={() => {
                                         }}>
@@ -32,13 +41,19 @@ export  class List extends React.Component {
                                  </Button>
                              </Popconfirm>
 
-                             <Button className={"btn1"} onClick={() => {
+                             <Button className={"btn"} onClick={() => {
+                                 document.getElementsByClassName('editName')
                                  if(inputValue !=="") {
                                      editTask(task.id, inputValue);
                                      removeInputValue();
                                  }
+                                 if(this.state.clicked !== task.id) {
+                                     this.setState({clicked: task.id});
+                                 } else {
+                                     this.setState({clicked: false});
+                                 }
                              }}>
-                                 редактирование
+                                {(this.state.clicked === task.id) ? 'сохранить' : 'редактирование'}
                              </Button>
                          </p>
                     )
