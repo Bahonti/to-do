@@ -11,7 +11,7 @@ class Form extends React.Component {
     render() {
         return (
             <div className="form">
-                <Input className="input" value={ this.props.inputValue} onChange={this.updateInputValue}/>
+                <Input className="input" value={ this.props.inputValue} onChange={(evt) => this.updateInputValue(evt)}/>
                 <Button className={"btn2"} onClick={() => {
                     if(this.props.inputValue !== ""){
                         this.props.addTask({id:new Date().getTime(), value: this.props.inputValue})}
