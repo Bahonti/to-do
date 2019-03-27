@@ -1,4 +1,4 @@
-export default (state = { tasks: [], inputValue: '' }, action) => {
+export default (state = { tasks: [], inputValue: '', taskInputValue: '' }, action) => {
     switch (action.type) {
         case 'ADD_TASK':
         case 'DELETE_TASK':
@@ -9,6 +9,8 @@ export default (state = { tasks: [], inputValue: '' }, action) => {
         case 'REMOVE_INPUT_VALUE':{
             return Object.assign({}, state, {inputValue: action.payload})
         }
+        case 'ADD_TASK_INPUT_VALUE':
+            return Object.assign({}, state, {taskInputValue: action.payload})
         default:
             return state;
     }

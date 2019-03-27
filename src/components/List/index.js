@@ -1,5 +1,5 @@
 import React from 'react';
-import {addInputValue, deleteTask, editTask, removeInputValue} from "../../actions/taskActions";
+import {addInputValue, deleteTask, editTask, removeInputValue, addTaskInputValue} from "../../actions/taskActions";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import { Button, Popconfirm, message } from 'antd';
@@ -23,7 +23,7 @@ export  class List extends React.Component {
 
     render() {
 
-        let { tasks, deleteTask, inputValue, editTask, removeInputValue } = this.props;
+        let { tasks, deleteTask, inputValue, editTask, removeInputValue, taskInputValue, addTaskInputValue } = this.props;
 
         return (
             <div className={"edit"}>
@@ -32,10 +32,13 @@ export  class List extends React.Component {
 
                          <p key={task.id}>
 
-                             <Input  onChange={(evt) => this.editTask(task.value, task.id)}
-                                 className={this.state.clicked === task.id ? "more" : "editName"}
-                                    disabled={this.state.clicked === task.id ? false : true }
-                                    value={task.value} />
+                             {this.state.clicked !== task.id
+                                 ? <span style={{width: '300px', display: 'inline-block'}}>{task.value}</span>
+                                 : <Input  onChange={(evt) => addTaskInputValue(evt.target.value)}
+                                          className={this.state.clicked === task.id ? "more" : "editName"}
+                                          disabled={this.state.clicked === task.id ? false : true }
+                                          value={this.props.taskInputValue} />
+                             }
 
                              <Popconfirm title="Вы хотитеи удалить эту задачу?" onConfirm={() => this.confirm(task.id)} onCancel={() => this.cancel} okText="Да" cancelText="Нет">
 
@@ -47,14 +50,12 @@ export  class List extends React.Component {
                              </Popconfirm>
 
                              <Button className={"btn"} onClick={() => {
-                                 document.getElementsByClassName('editName')
-                                 if(inputValue !=="") {
-                                     editTask(task.id, inputValue);
-                                     removeInputValue();
-                                 }
+
                                  if(this.state.clicked !== task.id) {
+                                     addTaskInputValue(task.value);
                                      this.setState({clicked: task.id});
                                  } else {
+                                     editTask(task.id, this.props.taskInputValue);
                                      this.setState({clicked: false});
                                  }
                              }}>
@@ -67,9 +68,6 @@ export  class List extends React.Component {
             </div>
         )
     }
-    editTask = (evt) => {
-        this.props.addInputValue(evt.target.value)
-    }
 }
 
 
@@ -77,13 +75,15 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     deleteTask,
     editTask,
     addInputValue,
-    removeInputValue
+    removeInputValue,
+    addTaskInputValue
 },dispatch);
 
 const mapSateToProps = state =>({
     ...state,
     tasks: state.taskReducer.tasks,
-    inputValue: state.taskReducer.inputValue
+    inputValue: state.taskReducer.inputValue,
+    taskInputValue: state.taskReducer.taskInputValue
 });
 
 export default connect(mapSateToProps, mapDispatchToProps)(List)

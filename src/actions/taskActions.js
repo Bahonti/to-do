@@ -58,6 +58,15 @@ export function addInputValue(value) {
 
     }
 }
+export function addTaskInputValue(value) {
+    return async function (dispatch, getState) {
+        dispatch({
+            type: 'ADD_TASK_INPUT_VALUE',
+            payload: value
+        })
+
+    }
+}
 
 export function removeInputValue() {
     return async function (dispatch, getState) {
