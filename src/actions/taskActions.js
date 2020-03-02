@@ -1,3 +1,5 @@
+import * as axios from "axios";
+
 export function addTask(task) {
     return async function (dispatch, getState) {
         let tasks = getState().taskReducer.tasks;
@@ -70,9 +72,6 @@ export function addTaskInputValue(value) {
 
 export function removeInputValue() {
     return async function (dispatch, getState) {
-
-
-
         dispatch({
             type: 'REMOVE_INPUT_VALUE',
             payload: ""
@@ -80,3 +79,13 @@ export function removeInputValue() {
 
     }
 }
+
+export const log_in_app = (login, password) => async dispatch => {
+    const res = await axios.Auth.login(login, password);
+    if(res.success === true) {
+        // dispatch({ type: actionTypes.INIT_ALL_CONSTANT, payload: res.data });
+        return res;
+    } else {
+        return res;
+    }
+};
